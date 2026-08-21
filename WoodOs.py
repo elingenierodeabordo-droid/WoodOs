@@ -7,7 +7,7 @@ import urllib.request
 from datetime import datetime
 from time import sleep
 import webbrowser
-#from emoji import *
+import json
 # Ruta base del script para generar rutas absolutas
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -408,11 +408,10 @@ paquetes = {
     "telegram": "telegram-desktop"
 }
 
-USUARIO_GITHUB = "elingenierodeabordo-droid"
-REPO = "WoodOS"
-RAMA = "main"
-URL_VERSION = f"https://raw.githubusercontent.com/{USUARIO_GITHUB}/{REPO}/{RAMA}/version.txt"
-URL_CODIGO = f"https://raw.githubusercontent.com/{USUARIO_GITHUB}/{REPO}/{RAMA}/woodos.py"
+
+URL_VERSION = f"https://raw.githubusercontent.com/elingenierodeabordo-droid/WoodOs/main/version.txt"
+URL_CODIGO = f"https://raw.githubusercontent.com/elingenierodeabordo-droid/WoodOs/main/WoodOs.py"
+API_APPS = f"https://api.github.com/repos/elingenierodeabordo-droid/WoodOs/contents/apps"
 # ======================================== METEO ========================================================
 def meteo(ciudad):
     if not ciudad:
@@ -470,30 +469,32 @@ def actualizar_apps():
     except Exception as e:
         print(f"⚠️ No se pudieron actualizar las apps: {e}")
 
+
+
 def comprobar(version_actual):
     print("\n🔍 Buscando actualizaciones en GitHub...")
-	try:
-		req = urllib.request.urlopen(URL_VERSION, timeout=5)
-		version_remota = req.read().decode("utf-8").strip()
+    try:
+        req = urllib.request.urlopen(URL_VERSION, timeout=5)
+        version_remota = req.read().decode("utf-8").strip()
 
-		if int(version_remota) > int(version_actual):
-			print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
-			opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
-			if opc == "s":
-				ruta_script = os.path.abspath(__file__)
-				print("⬇️ Descargando archivo principal...")
-				urllib.request.urlretrieve(URL_CODIGO, ruta_script)
-				
-				print("⬇️ Descargando aplicaciones...")
-				actualizar_apps()
-				
-				print("\n✅ ¡WoodOS y sus apps se han actualizado con éxito! Reiniciando...")
-				os.execv(sys.executable, [sys.executable] + sys.argv)
-		else:
-			print("✅ Estás en la versión más reciente.")
-			
-	except Exception as e:
-		print(f"❌ Error al comprobar actualizaciones: {e}")
+        if version_remota != version_actual:
+            print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
+            opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
+            if opc == "s":
+                ruta_script = os.path.abspath(__file__)
+                print("⬇️ Descargando archivo principal...")
+                urllib.request.urlretrieve(URL_CODIGO, ruta_script)
+                
+                print("⬇️ Descargando aplicaciones...")
+                actualizar_apps()
+                
+                print("\n✅ ¡WoodOS y sus apps se han actualizado con éxito! Reiniciando...")
+                os.execv(sys.executable, [sys.executable] + sys.argv)
+        else:
+            print("✅ Estás en la versión más reciente.")
+            
+    except Exception as e:
+        print(f"❌ Error al comprobar actualizaciones: {e}")
 
 
 
