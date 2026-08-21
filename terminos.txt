@@ -1,0 +1,116 @@
+Terminos de uso de WoodOS
+
+Al utilizar WoodOS, usted (en adelante "el usuario"), declara haber leído, comprendido y aceptado los presentes términos de uso.
+
+WoodOS (en adelante "el producto") es un proyecto desarrollado por OpenPhysical España (en adelante "el creador").
+
+===================================================================
+
+1. ESTADO DEL PRODUCTO
+
+WoodOS se encuentra en fase de desarrollo.
+
+Por este motivo, algunas funciones pueden estar incompletas, contener errores o comportarse de manera distinta a la esperada.
+
+El creador no garantiza la estabilidad, disponibilidad o correcto funcionamiento del producto.
+
+El uso previsto de este producto es no comercial.
+
+Para obtener el máximo rendimento, recomendamos utilizar Linux.
+
+===================================================================
+
+2. AUSENCIA DE GARANTÍAS
+
+El producto se proporciona "tal cual".
+
+El creador no ofrece ninguna garantía, explícita o implícita, incluyendo pero no limitándose a:
+
+* Funcionamiento ininterrumpido.
+* Ausencia de errores.
+* Compatibilidad con cualquier sistema.
+* Conservación de datos.
+* Seguridad absoluta.
+* Adecuación para un propósito concreto.
+
+===================================================================
+
+3. RIESGOS DEL USO
+
+El usuario reconoce y acepta que el uso del producto puede ocasionar:
+
+* Pérdida parcial o total de datos.
+* Corrupción de archivos.
+* Fallos de configuración.
+* Cierres inesperados.
+* Comportamientos imprevistos.
+* Pérdidas económicas o materiales.
+* Pérdida de tiempo o productividad.
+* Otros daños derivados del uso de software en desarrollo.
+
+===================================================================
+
+4. CONTRASEÑAS Y SEGURIDAD
+
+WoodOS puede ofrecer funciones para almacenar credenciales de administrador.
+
+Si el usuario decide utilizar dichas funciones:
+
+* Lo hace bajo su propia responsabilidad.
+* Comprende los riesgos asociados al almacenamiento local de contraseñas.
+* Acepta que ningún sistema es completamente seguro.
+
+Las contraseñas almacenadas permanecen en el equipo local y no son enviadas deliberadamente a través de Internet por el producto.
+
+===================================================================
+
+5. COPIAS DE SEGURIDAD
+
+Es responsabilidad exclusiva del usuario realizar copias de seguridad de los datos importantes.
+
+El creador recomienda realizar copias de seguridad periódicas antes de utilizar funciones experimentales o realizar cambios importantes en el sistema.
+
+===================================================================
+
+6. LIMITACIÓN DE RESPONSABILIDAD
+
+En la máxima medida permitida por la legislación aplicable, el creador no será responsable de:
+
+* Pérdidas de datos.
+* Daños directos o indirectos.
+* Daños materiales.
+* Pérdidas económicas.
+* Interrupciones del trabajo.
+* Problemas derivados de configuraciones incorrectas.
+* Consecuencias derivadas del uso o imposibilidad de uso del producto.
+
+El uso de WoodOS se realiza bajo la exclusiva responsabilidad del usuario.
+
+===================================================================
+
+7. MODIFICACIONES
+
+El creador podrá modificar el producto, añadir funciones, eliminar características o cambiar estos términos en cualquier momento y sin previo aviso.
+
+===================================================================
+
+8. ACEPTACIÓN
+
+El uso continuado de WoodOS implica la aceptación de los presentes términos de uso.
+
+Si no está de acuerdo con ellos, no debe utilizar el producto.
+
+===================================================================
+
+9. EDICIÓN Y USO COMERCIAL
+
+El uso comercial del producto está autorizado ÚNICA Y EXCLUSIVAMENTE para OpenPhysical España y sus afiliados.
+
+Se autoriza la edición de WoodOs para fines comerciales en caso de que haya una diferencia igual o mayor al 85% en relación al código original del producto, y se haya obtenido la autorización expresa por escrito de OpenPhysical España.
+
+Se autoriza
+
+Gracias por utilizar WoodOS.
+
+OpenPhysical España
+
