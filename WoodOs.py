@@ -476,7 +476,7 @@ def comprobar(version_actual):
         req = urllib.request.urlopen(URL_VERSION, timeout=5)
         version_remota = req.read().decode("utf-8").strip()
 
-        if version_remota != version_actual:
+        if int(version_remota) > int(version_actual):
             print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
             opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
             if opc == "s":
