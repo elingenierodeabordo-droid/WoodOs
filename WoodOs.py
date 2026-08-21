@@ -391,7 +391,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.4.1 beta"
+ver = "1.4.3 beta"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -408,7 +408,11 @@ paquetes = {
     "telegram": "telegram-desktop"
 }
 
-
+USUARIO_GITHUB = "elingenierodeabordo-droid"
+REPO = "WoodOS"
+RAMA = "main"
+URL_VERSION = f"https://raw.githubusercontent.com/{USUARIO_GITHUB}/{REPO}/{RAMA}/version.txt"
+URL_CODIGO = f"https://raw.githubusercontent.com/{USUARIO_GITHUB}/{REPO}/{RAMA}/woodos.py"
 # ======================================== METEO ========================================================
 def meteo(ciudad):
     if not ciudad:
@@ -442,6 +446,30 @@ os.makedirs(os.path.join(USER_DIR, "Documentos"), exist_ok=True)
 os.makedirs(os.path.join(USER_DIR, "Descargas"), exist_ok=True)
 os.makedirs(os.path.join(USER_DIR, "Escritorio"), exist_ok=True)
 os.makedirs(os.path.join(BASE_DIR, "apps"), exist_ok=True)
+
+#=======================================GITHUB======================================================
+def comprobar(version_actual):
+    print("\nBuscando actualizaciones en GitHub...󰊤")
+    try:
+        req = urllib.request.urlopen(URL_VERSION, timeout=5)
+        version_remota = req.read().decode("utf-8").strip()
+
+        if version_remota != version_actual:
+            print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
+            opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
+            if opc == "s":
+                ruta_script = os.path.abspath(__file__)
+                print("⬇️ Descargando actualización...")
+                urllib.request.urlretrieve(URL_CODIGO, ruta_script)
+                print("\n✅ ¡WoodOS actualizado con éxito! Reiniciando...")
+                os.execv(sys.executable, [sys.executable] + sys.argv)
+        else:
+            print("✅ Estás en la versión más reciente.")
+            
+    except Exception as e:
+        print(f"Error al comprobar actualizaciones: {e}")
+
+
 
 # ========================== BUCLE PRINCIPAL ============================================================
 sleep(0.1)
@@ -502,6 +530,7 @@ while True:
         print("4. Ajustes de guardado de contraseña")
         print("5. Cambiar ciudad")
         print("6. Wifi y red")
+        print("7. Buscar actualizaciones")
         config = input("Seleccione una opción: ")
         if config == "0":
             sonido("selection.wav")
@@ -576,7 +605,12 @@ while True:
         elif config == "6":
             sonido("selection.wav")
             gestion_redes()
-
+        
+        elif config == "7":
+            sonido("selection.wav")
+            comprobar(ver)
+            input("Pulsa enter para volver al menú")
+        
     elif menu == "2":
         sonido("selection.wav")
         while True:
@@ -676,7 +710,7 @@ while True:
     
     else:
         try:
-            subprocess.run([menu.split()])
+            subprocess.run(menu.split())
         except Exception:
             print("Error al ejecutar el comando")
             sleep(1.5)
