@@ -391,7 +391,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.4.3 beta"
+ver = "1.4.4 beta"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -449,25 +449,29 @@ os.makedirs(os.path.join(BASE_DIR, "apps"), exist_ok=True)
 
 #=======================================GITHUB======================================================
 def comprobar(version_actual):
-    print("\nBuscando actualizaciones en GitHub...󰊤")
-    try:
-        req = urllib.request.urlopen(URL_VERSION, timeout=5)
-        version_remota = req.read().decode("utf-8").strip()
-
-        if version_remota != version_actual:
-            print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
-            opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
-            if opc == "s":
-                ruta_script = os.path.abspath(__file__)
-                print("⬇️ Descargando actualización...")
-                urllib.request.urlretrieve(URL_CODIGO, ruta_script)
-                print("\n✅ ¡WoodOS actualizado con éxito! Reiniciando...")
-                os.execv(sys.executable, [sys.executable] + sys.argv)
-        else:
-            print("✅ Estás en la versión más reciente.")
-            
-    except Exception as e:
-        print(f"Error al comprobar actualizaciones: {e}")
+    print("\n🔍 Buscando actualizaciones en GitHub...")
+        try:
+            req = urllib.request.urlopen(URL_VERSION, timeout=5)
+            version_remota = req.read().decode("utf-8").strip()
+    
+            if version_remota != version_actual:
+                print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
+                opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
+                if opc == "s":
+                    ruta_script = os.path.abspath(__file__)
+                    print("⬇️ Descargando archivo principal...")
+                    urllib.request.urlretrieve(URL_CODIGO, ruta_script)
+                    
+                    print("⬇️ Descargando aplicaciones...")
+                    actualizar_apps()
+                    
+                    print("\n✅ ¡WoodOS y sus apps se han actualizado con éxito! Reiniciando...")
+                    os.execv(sys.executable, [sys.executable] + sys.argv)
+            else:
+                print("✅ Estás en la versión más reciente.")
+                
+        except Exception as e:
+            print(f"❌ Error al comprobar actualizaciones: {e}")
 
 
 
