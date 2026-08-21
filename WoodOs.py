@@ -391,7 +391,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.50"
+ver = "1.51"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -471,29 +471,30 @@ def actualizar_apps():
 
 
 def comprobar(version_actual):
-    print("\nBuscando actualizaciones en GitHub...")
-    try:
-        req = urllib.request.urlopen(URL_VERSION, timeout=5)
-        version_remota = req.read().decode("utf-8").strip()
-
-        if float(version_remota) > float(version_actual):
-            print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
-            opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
-            if opc == "s":
-                ruta_script = os.path.abspath(__file__)
-                print("⬇️ Descargando archivo principal...")
-                urllib.request.urlretrieve(URL_CODIGO, ruta_script)
+    if meteo_hoy =! "Sin conexión":
+        print("\nBuscando actualizaciones en GitHub...")
+        try:
+            req = urllib.request.urlopen(URL_VERSION, timeout=5)
+            version_remota = req.read().decode("utf-8").strip()
+    
+            if float(version_remota) > float(version_actual):
+                print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
+                opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
+                if opc == "s":
+                    ruta_script = os.path.abspath(__file__)
+                    print("⬇️ Descargando archivo principal...")
+                    urllib.request.urlretrieve(URL_CODIGO, ruta_script)
+                    
+                    print("⬇️ Descargando aplicaciones...")
+                    actualizar_apps()
+                    
+                    print("\n ¡WoodOS y sus apps se han actualizado con éxito! Reiniciando...")
+                    os.execv(sys.executable, [sys.executable] + sys.argv)
+            else:
+                print("Estás en la versión más reciente.")
                 
-                print("⬇️ Descargando aplicaciones...")
-                actualizar_apps()
-                
-                print("\n ¡WoodOS y sus apps se han actualizado con éxito! Reiniciando...")
-                os.execv(sys.executable, [sys.executable] + sys.argv)
-        else:
-            print("Estás en la versión más reciente.")
-            
-    except Exception as e:
-        print(f"❌ Error al comprobar actualizaciones: {e}")
+        except Exception as e:
+            print(f"❌ Error al comprobar actualizaciones: {e}")
 
 
 
@@ -501,14 +502,14 @@ def comprobar(version_actual):
 sleep(0.1)
 sonido("startup.wav")
 
-meteo_hoy = meteo(cargar_ciudad())
+
 if cargar_ciudad() is None:
     ci = input("Introduce tu ciudad con la primera letra mayúscula: ")
     guardar_ciudad(ci)
 
 
-
 while True:
+    meteo_hoy = meteo(cargar_ciudad())
     os.system("clear")
     # =============================== CONFIGURACIÓN DEL SISTEMA DE APPS ===============================
     apps = []
@@ -523,7 +524,7 @@ while True:
     print(MARRON, titulo.renderText("WoodOS"), RST)
     print(reloj.renderText(datetime.now().strftime("%H:%M")))
     print(novedades)
-    print(meteo(cargar_ciudad()))
+    print(meteo_hoy)
     print()
 
     if devmode:
