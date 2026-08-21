@@ -391,7 +391,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.4.5 beta"
+ver = "1.46 beta"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -454,7 +454,7 @@ def comprobar(version_actual):
 		req = urllib.request.urlopen(URL_VERSION, timeout=5)
 		version_remota = req.read().decode("utf-8").strip()
 
-		if version_remota != version_actual:
+		if int(version_remota) > int(version_actual):
 			print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
 			opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
 			if opc == "s":
