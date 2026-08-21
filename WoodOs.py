@@ -391,7 +391,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.47 beta"
+ver = "1.49 beta"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -452,7 +452,6 @@ def actualizar_apps():
     os.makedirs(ruta_apps_local, exist_ok=True)
     
     try:
-        # Petición a la API de GitHub para listar el contenido de la carpeta /apps
         req = urllib.request.Request(API_APPS, headers={"User-Agent": "WoodOS-Updater"})
         with urllib.request.urlopen(req, timeout=5) as response:
             archivos_remotos = json.loads(response.read().decode())
@@ -467,12 +466,12 @@ def actualizar_apps():
                 urllib.request.urlretrieve(url_descarga, destino)
                 
     except Exception as e:
-        print(f"⚠️ No se pudieron actualizar las apps: {e}")
+        print(f"⚠No se pudieron actualizar las apps: {e}")
 
 
 
 def comprobar(version_actual):
-    print("\n🔍 Buscando actualizaciones en GitHub...")
+    print("\nBuscando actualizaciones en GitHub...")
     try:
         req = urllib.request.urlopen(URL_VERSION, timeout=5)
         version_remota = req.read().decode("utf-8").strip()
@@ -488,10 +487,10 @@ def comprobar(version_actual):
                 print("⬇️ Descargando aplicaciones...")
                 actualizar_apps()
                 
-                print("\n✅ ¡WoodOS y sus apps se han actualizado con éxito! Reiniciando...")
+                print("\n ¡WoodOS y sus apps se han actualizado con éxito! Reiniciando...")
                 os.execv(sys.executable, [sys.executable] + sys.argv)
         else:
-            print("✅ Estás en la versión más reciente.")
+            print("Estás en la versión más reciente.")
             
     except Exception as e:
         print(f"❌ Error al comprobar actualizaciones: {e}")
