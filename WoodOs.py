@@ -448,6 +448,28 @@ os.makedirs(os.path.join(USER_DIR, "Escritorio"), exist_ok=True)
 os.makedirs(os.path.join(BASE_DIR, "apps"), exist_ok=True)
 
 #=======================================GITHUB======================================================
+def actualizar_apps():
+    ruta_apps_local = os.path.join(BASE_DIR, "apps")
+    os.makedirs(ruta_apps_local, exist_ok=True)
+    
+    try:
+        # Petición a la API de GitHub para listar el contenido de la carpeta /apps
+        req = urllib.request.Request(API_APPS, headers={"User-Agent": "WoodOS-Updater"})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            archivos_remotos = json.loads(response.read().decode())
+            
+        for archivo in archivos_remotos:
+            if archivo["name"].endswith(".py"):
+                nombre = archivo["name"]
+                url_descarga = archivo["download_url"]
+                destino = os.path.join(ruta_apps_local, nombre)
+                
+                print(f" 📦 Actualizando app: {nombre}...")
+                urllib.request.urlretrieve(url_descarga, destino)
+                
+    except Exception as e:
+        print(f"⚠️ No se pudieron actualizar las apps: {e}")
+
 def comprobar(version_actual):
     print("\n🔍 Buscando actualizaciones en GitHub...")
 	try:
