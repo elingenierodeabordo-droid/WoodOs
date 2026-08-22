@@ -458,7 +458,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.60"
+ver = "1.61"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -538,7 +538,7 @@ def actualizar_apps():
 
 
 def comprobar(version_actual):
-    if meteo_hoy =! "Sin conexión":
+    if meteo_hoy != "Sin conexión":
         print("\nBuscando actualizaciones en GitHub...")
         try:
             req = urllib.request.urlopen(URL_VERSION, timeout=5)
