@@ -458,7 +458,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.61"
+ver = "1.62"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -748,6 +748,8 @@ while True:
                 ejecutar_sudo(["apt", "full-upgrade", "-y"])
                 if devmode:
                     ejecutar_sudo(["apt", "autoremove", "-y"])
+					ejecutar_sudo(["apt", "autoclean", "-y"])
+					shutil.rmtree(os.path.expanduser("~/.cache/thumbnails"), ignore_errors=True)
                 input("\nPulse Enter...")
 
             elif sel in opciones_apps:
