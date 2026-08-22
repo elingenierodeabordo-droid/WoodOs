@@ -23,6 +23,21 @@ except ModuleNotFoundError:
         print("Error al instalar pyfiglet. Reinicie la aplicación.")
         sys.exit()
 
+# ===================================== CRYPTOGRAPHY =======================================
+try:
+    from cryptography.fernet import Fernet
+except ModuleNotFoundError:
+	input("Se necesitan librerías esenciales. Pulse Enter para instalar.")
+	subprocess.run([
+		sys.executable, "-m", "pip", "install",
+		"cryptography", "--break-system-packages"
+	])
+
+	try:
+		from cryptography.fernet import Fernet
+	except ModuleNotFoundError:
+		print("Reinicie WoodOS.")
+		sys.exit()
 
 
 # =================================== COMPROBACION AUDIO ====================================
@@ -124,18 +139,70 @@ def apagar_hotspot():
     )
     return res.returncode == 0
 
-def ejecutar_sudo(comando):
+
+def obtener_clave_cifrado():
+    ruta_clave = os.path.join(BASE_DIR, ".woodos_key")
+
+    if not os.path.exists(ruta_clave):
+        clave = Fernet.generate_key()
+
+        with open(ruta_clave, "wb") as f:
+            f.write(clave)
+
+
+        os.chmod(ruta_clave, 0o600)
+
+        return clave
+
+    with open(ruta_clave, "rb") as f:
+        return f.read()
+
+
+def guardar_contrasena(password):
     ruta_pass = os.path.join(BASE_DIR, ".woodos_pass")
-    if ajustpass == 1 and os.path.exists(ruta_pass):
-        with open(ruta_pass, "r") as f:
-            password = f.read()
-        return subprocess.run(
-            ["sudo", "-S"] + comando,
-            input=password + "\n",
-            text=True
-        )
-    else:
-        return subprocess.run(["sudo"] + comando)
+
+    clave = obtener_clave_cifrado()
+    fernet = Fernet(clave)
+
+    contraseña_cifrada = fernet.encrypt(password.encode("utf-8"))
+
+    with open(ruta_pass, "wb") as f:
+        f.write(contraseña_cifrada)
+
+    
+    os.chmod(ruta_pass, 0o600)
+
+
+def cargar_contrasena():
+    ruta_pass = os.path.join(BASE_DIR, ".woodos_pass")
+
+    if not os.path.exists(ruta_pass):
+        return None
+
+    try:
+        clave = obtener_clave_cifrado()
+        fernet = Fernet(clave)
+
+        with open(ruta_pass, "rb") as f:
+            contraseña_cifrada = f.read()
+
+        return fernet.decrypt(contraseña_cifrada).decode("utf-8")
+
+    except Exception:
+        return None
+
+def ejecutar_sudo(comando):
+    if ajustpass == 1:
+        password = cargar_contrasena()
+
+        if password is not None:
+            return subprocess.run(
+                ["sudo", "-S"] + comando,
+                input=password + "\n",
+                text=True
+            )
+
+    return subprocess.run(["sudo"] + comando)
 
 
 def sonido(nombre):
@@ -391,7 +458,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.51"
+ver = "1.60"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -610,8 +677,7 @@ while True:
                         capture_output=True
                     )
                     if resultado.returncode == 0:
-                        with open(ruta_pass, "w") as f:
-                            f.write(password)
+                        guardar_contrasena(password)
                         ajustpass = 1
                         guardar_passmode(ajustpass)
                         print("Contraseña guardada correctamente.")
