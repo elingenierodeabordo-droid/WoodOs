@@ -458,7 +458,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.65"
+ver = "1.66"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -540,11 +540,14 @@ def actualizar_apps():
 def comprobar(version_actual):
     if meteo_hoy != "Sin conexión":
         print("\nBuscando actualizaciones en GitHub...")
+        if devmode:
+            force = "n"
+            force = input("Quieres forzar la actualización? (s/n)")
         try:
             req = urllib.request.urlopen(URL_VERSION, timeout=5)
             version_remota = req.read().decode("utf-8").strip()
     
-            if float(version_remota) > float(version_actual):
+            if float(version_remota) > float(version_actual) or force == "s":
                 print(f"\n🎉 ¡Nueva versión disponible! (Actual: {version_actual} | Nueva: {version_remota})")
                 opc = input("¿Deseas instalarla ahora? (s/N): ").strip().lower()
                 if opc == "s":
