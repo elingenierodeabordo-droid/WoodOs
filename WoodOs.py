@@ -27,17 +27,17 @@ except ModuleNotFoundError:
 try:
     from cryptography.fernet import Fernet
 except ModuleNotFoundError:
-	input("Se necesitan librerías esenciales. Pulse Enter para instalar.")
-	subprocess.run([
-		sys.executable, "-m", "pip", "install",
-		"cryptography", "--break-system-packages"
-	])
+    input("Se necesitan librerías esenciales. Pulse Enter para instalar.")
+    subprocess.run([
+        sys.executable, "-m", "pip", "install",
+        "cryptography", "--break-system-packages"
+    ])
 
-	try:
-		from cryptography.fernet import Fernet
-	except ModuleNotFoundError:
-		print("Reinicie WoodOS.")
-		sys.exit()
+    try:
+        from cryptography.fernet import Fernet
+    except ModuleNotFoundError:
+        print("Reinicie WoodOS.")
+        sys.exit()
 
 
 # =================================== COMPROBACION AUDIO ====================================
@@ -748,8 +748,8 @@ while True:
                 ejecutar_sudo(["apt", "full-upgrade", "-y"])
                 if devmode:
                     ejecutar_sudo(["apt", "autoremove", "-y"])
-					ejecutar_sudo(["apt", "autoclean", "-y"])
-					shutil.rmtree(os.path.expanduser("~/.cache/thumbnails"), ignore_errors=True)
+                    ejecutar_sudo(["apt", "autoclean", "-y"])
+                    shutil.rmtree(os.path.expanduser("~/.cache/thumbnails"), ignore_errors=True)
                 input("\nPulse Enter...")
 
             elif sel in opciones_apps:
