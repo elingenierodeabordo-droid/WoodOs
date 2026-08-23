@@ -461,7 +461,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.71"
+ver = "1.73"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
