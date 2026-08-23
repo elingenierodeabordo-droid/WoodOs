@@ -461,7 +461,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.70"
+ver = "1.71"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -611,6 +611,7 @@ while True:
     print("3. 🔌 Energía")
     if meteo_hoy != "Ciudad no configurada" and meteo_hoy != "Sin conexión":
         print("4. 🌡️ Ver pronósitico completo")
+    print("5. \ue20f Utilidades")
     print()
     print("0. Salir")
 
