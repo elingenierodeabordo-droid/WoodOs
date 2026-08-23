@@ -41,7 +41,7 @@ def escanear_redes():
 
         for linea in resultado.stdout.splitlines():
             if not linea.strip():
-                continue
+                sleep(0)
 
             # Separamos por los 2 últimos puntos ':' para no romper nombres de red complejos
             partes = linea.rsplit(":", 2)
@@ -92,7 +92,7 @@ redes = escanear_redes()
 if not redes:
     print("No se encontraron redes disponibles.")
     input("\nPresione Enter para continuar...")
-    continue
+    sleep(0)
 
 print("Redes disponibles:\n")
 for i, (ssid, señal, seguridad) in enumerate(redes, 1):
