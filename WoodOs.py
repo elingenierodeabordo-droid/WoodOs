@@ -8,6 +8,9 @@ from datetime import datetime
 from time import sleep
 import webbrowser
 import json
+from pathlib import Path
+from random import randint
+import signal
 # Ruta base del script para generar rutas absolutas
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -458,7 +461,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.68"
+ver = "1.70"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -506,11 +509,13 @@ def cargar_usuario():
 usuario = cargar_usuario()
 
 USER_DIR = os.path.join(BASE_DIR, "Users", usuario)
+MUSIC_DIR = os.path.join(USER_DIR, "Música")
 
 os.makedirs(USER_DIR, exist_ok=True)
 os.makedirs(os.path.join(USER_DIR, "Documentos"), exist_ok=True)
 os.makedirs(os.path.join(USER_DIR, "Descargas"), exist_ok=True)
 os.makedirs(os.path.join(USER_DIR, "Escritorio"), exist_ok=True)
+os.makedirs(os.path.join(USER_DIR, "Música"), exist_ok=True)
 os.makedirs(os.path.join(BASE_DIR, "apps"), exist_ok=True)
 
 #=======================================GITHUB======================================================
@@ -797,6 +802,7 @@ while True:
 
 
     elif menu == "4":
+        sonido("selection.wav")
         try:
             subprocess.run(["curl", f"wttr.in/{cargar_ciudad()}?lang=es"])
             
@@ -804,7 +810,24 @@ while True:
         except:
             print("Error.")
 
-    
+    elif menu == "5":
+        sonido("selection.wav")
+        print("0. Volver")
+        print("1. Grabadora de sonido")
+        sel = input("Seleccione una opción: ")
+        if sel == "0":
+            sonido("selection.wav")
+
+        elif sel == "1":
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            nombre_archivo = f"audio_{timestamp}.wav"
+            ruta_archivo = MUSIC_DIR / nombre_archivo
+            
+            proceso = subprocess.Popen(["arecord","-f", "cd", str(ruta_archivo)])
+            input("🔴 Grabando... Presiona ENTER para detener la grabación.\n")
+            proceso.send_signal(signal.SIGINT)
+            proceso.wait()
+            print(f"Grabación finalizada y guardada con éxito como ")
     
     else:
         try:
