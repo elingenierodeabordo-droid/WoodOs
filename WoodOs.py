@@ -461,7 +461,7 @@ ROJO = "\033[31m"
 # ===================================== SETUP ======================================================
 sistema = platform.system()
 devmode = cargar_devmode()
-ver = "1.73"
+ver = "1.75"
 ajustpass = cargar_passmode()
 novedades = "Prueba el nuevo sistema de red y bluetooth! 🌐"
 os.system("clear")
@@ -759,6 +759,60 @@ while True:
                     ejecutar_sudo(["apt", "autoremove", "-y"])
                     ejecutar_sudo(["apt", "autoclean", "-y"])
                     shutil.rmtree(os.path.expanduser("~/.cache/thumbnails"), ignore_errors=True)
+                    ejecutar_sudo(["apt", "clean"])
+                    try:
+                        resultado = subprocess.run(
+                            ["snap", "list", "--all"],
+                            capture_output=True,
+                            text=True,
+                            check=True,
+                            env={**os.environ, "LANG": "C"}
+                        )
+                    except FileNotFoundError:
+                        pass
+                        sys.exit(1)
+                    except subprocess.CalledProcessError as error:
+                        sys.exit(1)
+                
+                    eliminados = 0
+                
+                    for linea in resultado.stdout.splitlines():
+                        # Formato habitual:
+                        # nombre versión rev canal disabled
+                        partes = linea.split()
+                
+                        if len(partes) < 6 or "disabled" not in partes:
+                            continue
+                
+                        nombre = partes[0]
+                        revision = partes[2]
+                
+                        if not revision.isdigit():
+                            continue
+                
+                        print(f"Eliminando {nombre}, revisión {revision}...")
+                
+                        try:
+                            subprocess.run(
+                                [
+                                    "snap",
+                                    "remove",
+                                    nombre,
+                                    f"--revision={revision}"
+                                ],
+                                check=True
+                            )
+                            eliminados += 1
+                        except subprocess.CalledProcessError as error:
+                            if devmode:    
+                                print(f"No se pudo eliminar {nombre} ({revision}): {error}")
+                
+                    if devmode:
+                        print(f"\nRevisiones eliminadas: {eliminados}")
+                
+                
+                if __name__ == "__main__":
+                    eliminar_revisiones_antiguas()
                 input("\nPulse Enter...")
 
             elif sel in opciones_apps:
